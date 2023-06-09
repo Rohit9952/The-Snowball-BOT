@@ -42,7 +42,7 @@ AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_chan
 AUTH_GROUPS = [int(ch) for ch in auth_grp.split()] if auth_grp else None
 
 # MongoDB information
-DATABASE_URI = 'mongodb+srv://SNOWBALL:SNOWBALL@cluster0.yfeei9p.mongodb.net/?retryWrites=true&w=majority'
+DATABASE_URI = 'mongodb+srv://SNOWBALL:SNOWBALL@cluster0.yfeei9p.mongodb.net/?retryWrites=true'
 DATABASE_NAME = 'Cluster0'
 COLLECTION_NAME = 'Media_Files'
 

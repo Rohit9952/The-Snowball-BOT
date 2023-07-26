@@ -71,19 +71,19 @@ async def pm_next_page(bot, query):
         off_set = offset - 10
     if n_offset == 0:
         btn.append(
-            [InlineKeyboardButton("⏪ BACK", callback_data=f"pmnext_{req}_{key}_{off_set}"),
+            [InlineKeyboardButton("◀️ 𝖡𝖠𝖢𝖪", callback_data=f"pmnext_{req}_{key}_{off_set}"),
              InlineKeyboardButton(f"📃 Pages {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages")]                                  
         )
     elif off_set is None:
         btn.append(
             [InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-             InlineKeyboardButton("NEXT ⏩", callback_data=f"pmnext_{req}_{key}_{n_offset}")])
+             InlineKeyboardButton("NEXT ▶️", callback_data=f"pmnext_{req}_{key}_{n_offset}")])
     else:
         btn.append(
             [
-                InlineKeyboardButton("⏪ BACK", callback_data=f"pmnext_{req}_{key}_{off_set}"),
+                InlineKeyboardButton("◀️ 𝖡𝖠𝖢𝖪", callback_data=f"pmnext_{req}_{key}_{off_set}"),
                 InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-                InlineKeyboardButton("NEXT ⏩", callback_data=f"pmnext_{req}_{key}_{n_offset}")
+                InlineKeyboardButton("NEXT ▶️", callback_data=f"pmnext_{req}_{key}_{n_offset}")
             ],
         )
     try:
@@ -104,7 +104,7 @@ async def pm_spoll_tester(bot, query):
     if not movies:
         return await query.answer("You are clicking on an old button which is expired.", show_alert=True)
     movie = movies[(int(movie_))]
-    await query.answer('Checking for Movie in database...')
+    await query.answer('𝖧𝖮𝖫 𝗎𝗉 𝗅𝖾𝗆𝗆𝖾 𝖼𝗁𝖾𝖼𝗄...')
     files, offset, total_results = await get_search_results(movie, offset=0, filter=True)
     if files:
         k = (movie, files, offset, total_results)
@@ -150,12 +150,12 @@ async def pm_AutoFilter(client, msg, pmspoll=False):
         PM_BUTTONS[key] = search
         req = message.from_user.id if message.from_user else 0
         btn.append(
-            [InlineKeyboardButton(text=f"📄 𝗣𝗮𝗴𝗲 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
-            InlineKeyboardButton(text="𝗡𝗲𝘅𝘁 ➡️", callback_data=f"pmnext_{req}_{key}_{offset}")]
+            [InlineKeyboardButton(text=f"📄 𝖯𝖠𝖦𝖤 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
+            InlineKeyboardButton(text="𝖭𝖤𝖷𝖳 ▶️", callback_data=f"pmnext_{req}_{key}_{offset}")]
         )
     else:
         btn.append(
-            [InlineKeyboardButton(text="📄 𝗣𝗮𝗴𝗲 1/1", callback_data="pages")]
+            [InlineKeyboardButton(text="📄 𝖯𝖠𝖦𝖤 1/1", callback_data="pages")]
         )
     if PM_IMDB.strip().lower() in ["true", "yes", "1", "enable", "y"]:
         imdb = await get_poster(search)
@@ -197,7 +197,7 @@ async def pm_AutoFilter(client, msg, pmspoll=False):
             **locals()
         )
     else:
-        cap = f"Here is what i found for your query {search}"
+        cap = f"<code> {search} </code>"
     if imdb and imdb.get('poster'):
         try:
             hehe = await message.reply_photo(photo=imdb.get('poster'), caption=cap, reply_markup=InlineKeyboardMarkup(btn))
@@ -231,7 +231,7 @@ async def pm_spoll_choker(msg):
     g_s += await search_gagala(msg.text)
     gs_parsed = []
     if not g_s:
-        k = await msg.reply("I couldn't find any movie in that name.")
+        k = await msg.reply("𝖨 𝗍𝗋𝗂𝖾𝖽.. 𝖺 𝗆𝗈𝗏𝗂𝖾 𝗂𝗇 𝗍𝗁𝖺𝗍 𝗇𝖺𝗆𝖾 𝖨 𝖼𝖺𝗇𝗍 𝖿𝗂𝗇𝖽 𝗂𝗍.")
         await asyncio.sleep(8)
         await k.delete()
         return
@@ -260,14 +260,12 @@ async def pm_spoll_choker(msg):
     movielist += [(re.sub(r'(\-|\(|\)|_)', '', i, flags=re.IGNORECASE)).strip() for i in gs_parsed]
     movielist = list(dict.fromkeys(movielist))  # removing duplicates
     if not movielist:
-        k = await msg.reply("I couldn't find anything related to that. Check your spelling")
+        k = await msg.reply("𝖨'𝗆 𝗀𝗈𝗇𝗇𝖺 𝗍𝖺𝗄𝖾 𝗒𝗈𝗎 𝖻𝖺𝖼𝗄 𝗍𝗈 𝗄𝗂𝗇𝖽𝖾𝗋𝗀𝖺𝗋𝗍𝖾𝗇 𝗍𝗈 𝗅𝖾𝖺𝗋𝗇 𝖠𝖡𝖢 𝖢𝖧𝖤𝖢𝖪 𝖴𝖱 𝖲𝖯𝖤𝖫𝖫𝖨𝖭𝖦!!")
         await asyncio.sleep(8)
         await k.delete()
         return
     PM_SPELL_CHECK[msg.id] = movielist
     btn = [[InlineKeyboardButton(text=movie.strip(), callback_data=f"pmspelling#{user}#{k}")] for k, movie in enumerate(movielist)]
     btn.append([InlineKeyboardButton(text="Close", callback_data=f'pmspelling#{user}#close_spellcheck')])
-    await msg.reply("I couldn't find anything related to that\nDid you mean any one of these?", reply_markup=InlineKeyboardMarkup(btn), reply_to_message_id=msg.id)
-
-
+    await msg.reply("𝖢𝖺𝗇'𝗍 𝖥𝗂𝗇𝖽 𝖨𝗍 𝖡𝗋𝖺𝗏 𝖣𝗈 𝗒𝗈𝗎 𝗆𝖾𝖺𝗇 𝖺𝗇𝗒 𝗈𝖿 𝗍𝗁𝖾𝗌𝖾?", reply_markup=InlineKeyboardMarkup(btn), reply_to_message_id=msg.id)
 

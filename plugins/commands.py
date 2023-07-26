@@ -22,9 +22,9 @@ BATCH_FILES = {}
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         buttons = [[           
-            InlineKeyboardButton('📢 𝚄𝙿𝙳𝙰𝚃𝙴𝚂 📢', url=f'https://t.me/{SUPPORT_CHAT}')
+            InlineKeyboardButton('☃️ 𝖴𝗉𝖽𝖺𝗍𝖾𝗌 ☃️', url=f'https://t.me/{SUPPORT_CHAT}')
             ],[
-            InlineKeyboardButton('♻️ 𝙷𝙴𝙻𝙿 ♻️', url=f"https://t.me/{temp.U_NAME}?start=help")
+            InlineKeyboardButton('💡 𝖧𝖾𝗅𝗉 💡', url=f"https://t.me/{temp.U_NAME}?start=help")
             ]]
         await message.reply(START_MESSAGE.format(user=message.from_user.mention if message.from_user else message.chat.title, bot=temp.B_LINK), reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)                    
         await asyncio.sleep(2) 
@@ -38,17 +38,17 @@ async def start(client, message):
         await client.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(message.from_user.id, message.from_user.mention, message.from_user.username, temp.U_NAME))
     if len(message.command) != 2:
         buttons = [[
-            InlineKeyboardButton("➕️ 𝙳𝙸𝚂𝙲𝚄𝚂𝚂𝙸𝙾𝙽 𝙶𝚁𝙾𝚄𝙿 ➕️", url=f"https://t.me/+mCdsJ7mjeBEyZWQ1")
+            InlineKeyboardButton("➕️ DISCUSSION GROUP ➕️", url=f"https://t.me/+mCdsJ7mjeBEyZWQ1")
             ],[
-            InlineKeyboardButton("🔍 𝚂𝙴𝙰𝚁𝙲𝙷 🔍", switch_inline_query_current_chat=''), 
-            InlineKeyboardButton("📢 𝚄𝙿𝙳𝙰𝚃𝙴𝚂 📢", url="https://t.me/+yYhfz5JwILhmODc9")
+            InlineKeyboardButton("🕯️️ 𝖨𝗇 𝗅𝗂𝗇𝖾 𝖰𝗎𝖾𝗋𝗒 🕯️", switch_inline_query_current_chat=''), 
+            InlineKeyboardButton("☃️ 𝖴𝗉𝖽𝖺𝗍𝖾𝗌 ☃️", url="https://t.me/+HzGpLAZXTxoyYTNl")
             ],[      
-            InlineKeyboardButton("♻️ 𝙷𝙴𝙻𝙿 ♻️", callback_data="help"),
-            InlineKeyboardButton("💫 𝙰𝙱𝙾𝚄𝚃 💫", callback_data="about")
+            InlineKeyboardButton("🏷️ 𝖧𝖾𝗅𝗉 🏷️", callback_data="help"),
+            InlineKeyboardButton("🖇️ 𝖠𝖻𝗈𝗎𝗍 🖇️", callback_data="about")
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_chat_action(enums.ChatAction.TYPING)
-        m=await message.reply_sticker("CAACAgUAAxkBAAIFNGJSlfOErbkSeLt9SnOniU-58UUBAAKaAAPIlGQULGXh4VzvJWoeBA")
+        m=await message.reply_sticker("CAACAgUAAxkBAAEJcFxklJ3HkDjH9nnOdNcxDzhNNCrZCQACnAADyJRkFHOPAAHz2sWF_C8E")
         await asyncio.sleep(1)
         await m.delete()
         await message.reply_photo(
@@ -88,17 +88,17 @@ async def start(client, message):
         return
     if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help"]:
         buttons = [[
-            InlineKeyboardButton("➕️ 𝙳𝙸𝚂𝙲𝚄𝚂𝚂𝙸𝙾𝙽 𝙶𝚁𝙾𝚄𝙿 ➕️", url=f"https://t.me/+mCdsJ7mjeBEyZWQ1")
+            InlineKeyboardButton("➕️ DISCUSSION GROUP ➕️", url=f"https://t.me/+mCdsJ7mjeBEyZWQ1")
             ],[
-            InlineKeyboardButton("🔍 𝚂𝙴𝙰𝚁𝙲𝙷 🔍", switch_inline_query_current_chat=''), 
-            InlineKeyboardButton("📢 𝚄𝙿𝙳𝙰𝚃𝙴𝚂 📢", url="https://t.me/+yYhfz5JwILhmODc9")
+            InlineKeyboardButton("🕯️️ 𝖨𝗇 𝗅𝗂𝗇𝖾 𝖰𝗎𝖾𝗋𝗒 🕯️", switch_inline_query_current_chat=''), 
+            InlineKeyboardButton("☃️ 𝖴𝗉𝖽𝖺𝗍𝖾𝗌 ☃️", url="https://t.me/+HzGpLAZXTxoyYTNl")
             ],[      
-            InlineKeyboardButton("♻️ 𝙷𝙴𝙻𝙿 ♻️", callback_data="help"),
-            InlineKeyboardButton("💫 𝙰𝙱𝙾𝚄𝚃 💫", callback_data="about")
+            InlineKeyboardButton("🏷️ 𝖧𝖾𝗅𝗉 🏷", callback_data="help"),
+            InlineKeyboardButton("🖇️ 𝖠𝖻𝗈𝗎𝗍 🖇️", callback_data="about")
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_chat_action(enums.ChatAction.TYPING)
-        m=await message.reply_sticker("CAACAgUAAxkBAAIFNGJSlfOErbkSeLt9SnOniU-58UUBAAKaAAPIlGQULGXh4VzvJWoeBA")
+        m=await message.reply_sticker("CAACAgUAAxkBAAEJcFxklJ3HkDjH9nnOdNcxDzhNNCrZCQACnAADyJRkFHOPAAHz2sWF_C8E")
         await asyncio.sleep(1)
         await m.delete()
         await message.reply_photo(
@@ -400,23 +400,23 @@ async def settings(client, message):
     if settings is not None:
         buttons = [[
             ],[            
-            InlineKeyboardButton('𝐁𝐔𝐓𝐓𝐎𝐍 𝐒𝐓𝐘𝐋𝐄', callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
-            InlineKeyboardButton('𝐒𝐈𝐍𝐆𝐋𝐄' if settings["button"] else '𝐃𝐎𝐔𝐁𝐋𝐄',  callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
+            InlineKeyboardButton('𝖡𝗎𝗍𝗍𝗈𝗇 𝖲𝗍𝗒𝗅𝖾', callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
+            InlineKeyboardButton('𝖲𝗂𝗇𝗀𝗅𝖾' if settings["button"] else '𝖣𝗈𝗎𝖻𝗅𝖾',  callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
             ],[
-            InlineKeyboardButton('𝐁𝐎𝐓 𝐏𝐌', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝐘𝐄𝐒' if settings["botpm"] else '🚫 𝐍𝐎', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
+            InlineKeyboardButton('𝖡𝗈𝗍 𝖯𝖬', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["botpm"] else '🚫 𝖭𝖮', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
             ],[                
-            InlineKeyboardButton('𝐅𝐈𝐋𝐄 𝐒𝐄𝐂𝐔𝐑𝐄', callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝐘𝐄𝐒' if settings["file_secure"] else '🚫 𝐍𝐎',  callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
+            InlineKeyboardButton('𝖥𝗂𝗅𝖾 𝖲𝖾𝖼𝗎𝗋𝖾', callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["file_secure"] else '🚫 𝖭𝖮',  callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
             ],[
-            InlineKeyboardButton('𝐈𝐌𝐃𝐁', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝐘𝐄𝐒' if settings["imdb"] else '🚫 𝐍𝐎', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
+            InlineKeyboardButton('𝖨𝖬𝖣𝖡', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["imdb"] else '🚫 𝐍𝐎', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
             ],[
-            InlineKeyboardButton('𝐒𝐏𝐄𝐋𝐋 𝐂𝐇𝐄𝐂𝐊', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝐘𝐄𝐒' if settings["spell_check"] else '🚫 𝐍𝐎', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
+            InlineKeyboardButton('𝖲𝗉𝖾𝗅𝗅 𝖢𝗁𝖾𝖼𝗄', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["spell_check"] else '🚫 𝖭𝖮', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
             ],[
-            InlineKeyboardButton('𝐖𝐄𝐋𝐂𝐎𝐌𝐄', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝐘𝐄𝐒' if settings["welcome"] else '🚫 𝐍𝐎', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')               
+            InlineKeyboardButton('𝖶𝖾𝗅𝖼𝗈𝗆𝖾', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["welcome"] else '🚫 𝖭𝖮', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')               
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_text(
@@ -516,10 +516,3 @@ async def send_chatmsg(bot, message):
             await message.reply_text("<b>Aɴ Eʀʀᴏʀ Oᴄᴄᴜʀʀᴇᴅ !</b>")
     else:
         await message.reply_text("<b>Cᴏᴍᴍᴀɴᴅ Iɴᴄᴏᴍᴘʟᴇᴛᴇ...</b>")
-
-
-
-
-
-
-

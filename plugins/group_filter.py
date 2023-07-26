@@ -5,7 +5,7 @@ from utils import get_shortlink
 import pyrogram
 from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, make_inactive
 from info import ADMINS, AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, AUTH_GROUPS, P_TTI_SHOW_OFF, IMDB, PM_IMDB, SINGLE_BUTTON, PROTECT_CONTENT, \
-    SPELL_CHECK_REPLY, IMDB_TEMPLATE, IMDB_DELET_TIME, START_MESSAGE, PMFILTER, G_FILTER, BUTTON_LOCK, BUTTON_LOCK_TEXT, SHORT_URL, SHORT_API
+    SPELL_CHECK_REPLY, IMDB_TEMPLATE, IMDB_DELET_TIME, START_MESSAGE, PMFILTER, G_FILTER, BUTTON_LOCK, BUTTON_LOCK_TEXT, SHORT_URL, SHORT_API, REQ_CHANNEL
 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums 
@@ -24,6 +24,8 @@ logger.setLevel(logging.ERROR)
 FILTER_MODE = {}
 G_MODE = {}
 SPELL_CHECK = {}
+req_channel = REQ_CHANNEL
+
 
 @Client.on_message(filters.command('autofilter') & filters.group & admin_fliter)
 async def fil_mod(client, message): 
@@ -33,17 +35,17 @@ async def fil_mod(client, message):
       try: 
          args = message.text.split(None, 1)[1].lower() 
       except: 
-         return await message.reply("**𝙸𝙽𝙲𝙾𝙼𝙿𝙻𝙴𝚃𝙴 𝙲𝙾𝙼𝙼𝙰𝙽𝙳...**")
+         return await message.reply("**𝖨𝗇𝖼𝗈𝗆𝗉𝗅𝖾𝗍𝖾 𝖢𝗈𝗆𝗆𝖺𝗇𝖽...**")
       
-      m = await message.reply("**𝚂𝙴𝚃𝚃𝙸𝙽𝙶.../**")
+      m = await message.reply("**𝖲𝖾𝗍𝗍𝗂𝗇𝗀.../**")
 
       if args in mode_on:
           FILTER_MODE[str(message.chat.id)] = "True"
-          await m.edit("**𝙰𝚄𝚃𝙾𝙵𝙸𝙻𝚃𝙴𝚁 𝙴𝙽𝙰𝙱𝙻𝙴𝙳**")
+          await m.edit("**𝖠𝗎𝗍𝗈𝖥𝗂𝗅𝗍𝖾𝗋 𝖤𝗇𝖺𝖻𝗅𝖾𝖽**")
       
       elif args in mode_of:
           FILTER_MODE[str(message.chat.id)] = "False"
-          await m.edit("**𝙰𝚄𝚃𝙾𝙵𝙸𝙻𝚃𝙴𝚁 𝙳𝙸𝚂𝙰𝙱𝙻𝙴𝙳**")
+          await m.edit("**𝖠𝗎𝗍𝗈𝖥𝗂𝗅𝗍𝖾𝗋 𝖣𝗂𝗌𝖺𝖻𝗅𝖾**")
       else:
           await m.edit("𝚄𝚂𝙴 :- `/autofilter on` 𝙾𝚁 `/autofilter off`")
 
@@ -56,19 +58,20 @@ async def g_fil_mod(client, message):
       try: 
          args = message.text.split(None, 1)[1].lower() 
       except: 
-         return await message.reply("**𝙸𝙽𝙲𝙾𝙼𝙿𝙻𝙴𝚃𝙴 𝙲𝙾𝙼𝙼𝙰𝙽𝙳...**")
+         return await message.reply("**𝖨𝗇𝖼𝗈𝗆𝗉𝗅𝖾𝗍𝖾 𝖢𝗈𝗆𝗆𝖺𝗇...**")
       
-      m = await message.reply("**𝚂𝙴𝚃𝚃𝙸𝙽𝙶.../**")
+      m = await message.reply("**𝖲𝖾𝗍𝗍𝗂𝗇𝗀.../**")
 
       if args in mode_on:
           G_MODE[str(message.chat.id)] = "True"
-          await m.edit("**𝙶𝙻𝙾𝙱𝙰𝙻 𝙴𝙽𝙰𝙱𝙻𝙴𝙳**")
+          await m.edit("**𝖦𝗅𝗈𝖻𝖺𝗅 𝖤𝗇𝖺𝖻𝗅𝖾𝖽**")
       
       elif args in mode_of:
           G_MODE[str(message.chat.id)] = "False"
-          await m.edit("**𝙶𝙻𝙾𝙱𝙰𝙻 𝙳𝙸𝚂𝙰𝙱𝙻𝙴𝙳**")
+          await m.edit("**𝖦𝗅𝗈𝖻𝖺𝗅 𝖣𝗂𝗌𝖺𝖻𝗅𝖾𝖽**")
       else:
           await m.edit("𝚄𝚂𝙴 :- `/g_filter on` 𝙾𝚁 `/g_filter off`")
+
 
 
 @Client.on_callback_query(filters.regex("gpnext"))
@@ -82,7 +85,7 @@ async def gp_next_page(bot, query):
         offset = 0
     search = temp.BUTTONS.get(key)
     if not search:
-        await query.answer("You are using one of my old messages, please send the request again.", show_alert=True)
+        await query.answer("𝖮𝖫𝖣!! 𝖱𝖾𝗊𝗎𝖾𝗌𝗍 𝖺𝗀𝖺𝗂𝗇", show_alert=True)
         return
 
     files, n_offset, total = await get_search_results(search, offset=offset, filter=True)
@@ -116,20 +119,20 @@ async def gp_next_page(bot, query):
         off_set = offset - 10
     if n_offset == 0:
         btn.append(
-            [InlineKeyboardButton("⏪ BACK", callback_data=f"gpnext_{req}_{key}_{off_set}"),
+            [InlineKeyboardButton("◀️ 𝖡𝖠𝖢𝖪", callback_data=f"gpnext_{req}_{key}_{off_set}"),
              InlineKeyboardButton(f"📃 Pages {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}",
                                   callback_data="pages")]
         )
     elif off_set is None:
         btn.append(
             [InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-             InlineKeyboardButton("NEXT ⏩", callback_data=f"gpnext_{req}_{key}_{n_offset}")])
+             InlineKeyboardButton("NEXT ▶️", callback_data=f"gpnext_{req}_{key}_{n_offset}")])
     else:
         btn.append(
             [
-                InlineKeyboardButton("⏪ BACK", callback_data=f"gpnext_{req}_{key}_{off_set}"),
+                InlineKeyboardButton("◀️ 𝖡𝖠𝖢𝖪", callback_data=f"gpnext_{req}_{key}_{off_set}"),
                 InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-                InlineKeyboardButton("NEXT ⏩", callback_data=f"gpnext_{req}_{key}_{n_offset}")
+                InlineKeyboardButton("NEXT ▶️", callback_data=f"gpnext_{req}_{key}_{n_offset}")
             ],
         )
     
@@ -198,8 +201,17 @@ async def auto_filter(client, msg, spoll=False):
             return
         if 2 < len(message.text) < 100:
             search = message.text
+            requested_movie = search.strip()
+            user_id = message.from_user.id
             files, offset, total_results = await get_search_results(search.lower(), offset=0, filter=True)
+
             if not files:
+                await client.send_message(req_channel,f"-☃️ #REQUESTED_CONTENT ☃️-\n\n📝**Content Name** :`{search}`\n**Requested By**: {message.from_user.first_name}\n **USER ID**:{user_id}\n\n🗃️",
+                                                                                                       reply_markup=InlineKeyboardMarkup([
+                                                                                                                                        [InlineKeyboardButton(text=f"✅Upload Done", callback_data=f"notify_userupl:{user_id}:{requested_movie}")],
+                                                                                                                                        [InlineKeyboardButton(text=f"⚡Already Upl..", callback_data=f"notify_user_alrupl:{user_id}:{requested_movie}"),InlineKeyboardButton("🖊Spell Error", callback_data=f"notify_user_spelling_error:{user_id}:{requested_movie}")],
+                                                                                                                                        [InlineKeyboardButton(text=f"😒Not Available", callback_data=f"notify_user_not_avail:{user_id}:{requested_movie}"),InlineKeyboardButton("❌Reject Req", callback_data=f"notify_user_req_rejected:{user_id}:{requested_movie}")],
+                                                                                                                                        ]))
                 if settings["spell_check"]:
                     return await advantage_spell_chok(msg)
                 else:
@@ -231,15 +243,15 @@ async def auto_filter(client, msg, spoll=False):
         temp.BUTTONS[key] = search
         req = message.from_user.id if message.from_user else 0
         btn.append(
-            [InlineKeyboardButton(text=f"📄 𝗣𝗮𝗴𝗲 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
-             InlineKeyboardButton(text="𝗡𝗲𝘅𝘁 ➡️", callback_data=f"gpnext_{req}_{key}_{offset}")]
+            [InlineKeyboardButton(text=f"📄 𝖯𝖠𝖦𝖤 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
+             InlineKeyboardButton(text="NEXT ▶️", callback_data=f"gpnext_{req}_{key}_{offset}")]
         )
     else:
         btn.append(
-            [InlineKeyboardButton(text="📄 𝗣𝗮𝗴𝗲 1/1", callback_data="pages")]
+            [InlineKeyboardButton(text="📄 𝖯𝖠𝖦𝖤 1/1", callback_data="pages")]
         )
     
-    imdb =  await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
+    imdb = None
     TEMPLATE = settings['template']
     if imdb:
         cap = TEMPLATE.format(
@@ -473,11 +485,3 @@ async def global_filters(client, message, text=False):
                 break
     else:
         return False
-
-
-
-
-
-
-
-

@@ -18,42 +18,49 @@ logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
 
+
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        buttons = [[           
-            InlineKeyboardButton('☃️ 𝖴𝗉𝖽𝖺𝗍𝖾𝗌 ☃️', url=f'https://t.me/{SUPPORT_CHAT}')
-            ],[
-            InlineKeyboardButton('💡 𝖧𝖾𝗅𝗉 💡', url=f"https://t.me/{temp.U_NAME}?start=help")
-            ]]
-        await message.reply(START_MESSAGE.format(user=message.from_user.mention if message.from_user else message.chat.title, bot=temp.B_LINK), reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)                    
-        await asyncio.sleep(2) 
+        buttons = [[
+            InlineKeyboardButton(
+                '𝖴𝗉𝖽𝖺𝗍𝖾𝗌', url=f'https://t.me/{SUPPORT_CHAT}')
+        ], [
+            InlineKeyboardButton(
+                '𝖧𝖾𝗅𝗉', url=f"https://t.me/{temp.U_NAME}?start=help")
+        ]]
+        await message.reply(START_MESSAGE.format(user=message.from_user.mention if message.from_user else message.chat.title, bot=temp.B_LINK), reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
+        await asyncio.sleep(2)
         if not await db.get_chat(message.chat.id):
-            total=await client.get_chat_members_count(message.chat.id)
-            await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown"))       
+            total = await client.get_chat_members_count(message.chat.id)
+            await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown"))
             await db.add_chat(message.chat.id, message.chat.title, message.chat.username)
-        return 
+        return
     if not await db.is_user_exist(message.from_user.id):
         await db.add_user(message.from_user.id, message.from_user.first_name)
         await client.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(message.from_user.id, message.from_user.mention, message.from_user.username, temp.U_NAME))
     if len(message.command) != 2:
         buttons = [[
-            InlineKeyboardButton("➕️ DISCUSSION GROUP ➕️", url=f"https://t.me/+mCdsJ7mjeBEyZWQ1")
-            ],[
-            InlineKeyboardButton("🕯️️ 𝖨𝗇 𝗅𝗂𝗇𝖾 𝖰𝗎𝖾𝗋𝗒 🕯️", switch_inline_query_current_chat=''), 
-            InlineKeyboardButton("☃️ 𝖴𝗉𝖽𝖺𝗍𝖾𝗌 ☃️", url="https://t.me/+HzGpLAZXTxoyYTNl")
-            ],[      
-            InlineKeyboardButton("🏷️ 𝖧𝖾𝗅𝗉 🏷️", callback_data="help"),
-            InlineKeyboardButton("🖇️ 𝖠𝖻𝗈𝗎𝗍 🖇️", callback_data="about")
+            InlineKeyboardButton("➕️ DISCUSSION GROUP ➕️",
+                                 url=f"https://t.me/+mCdsJ7mjeBEyZWQ1")
+        ], [
+            InlineKeyboardButton("𝖨𝗇 𝗅𝗂𝗇𝖾 𝖰𝗎𝖾𝗋𝗒",
+                                 switch_inline_query_current_chat=''),
+            InlineKeyboardButton(
+                "𝖴𝗉𝖽𝖺𝗍𝖾𝗌", url="https://t.me/+HzGpLAZXTxoyYTNl")
+        ], [
+            InlineKeyboardButton("𝖧𝖾𝗅𝗉", callback_data="help"),
+            InlineKeyboardButton("𝖠𝖻𝗈𝗎𝗍", callback_data="about")
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_chat_action(enums.ChatAction.TYPING)
-        m=await message.reply_sticker("CAACAgUAAxkBAAEJcFxklJ3HkDjH9nnOdNcxDzhNNCrZCQACnAADyJRkFHOPAAHz2sWF_C8E")
+        m = await message.reply_sticker("CAACAgUAAxkBAAEJcFxklJ3HkDjH9nnOdNcxDzhNNCrZCQACnAADyJRkFHOPAAHz2sWF_C8E")
         await asyncio.sleep(1)
         await m.delete()
         await message.reply_photo(
             photo=random.choice(PICS),
-            caption=START_MESSAGE.format(user=message.from_user.mention, bot=temp.B_LINK),
+            caption=START_MESSAGE.format(
+                user=message.from_user.mention, bot=temp.B_LINK),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
@@ -67,7 +74,7 @@ async def start(client, message):
         btn = [
             [
                 InlineKeyboardButton(
-                    "🤖 Join Updates Channel", url=invite_link.invite_link
+                    "❆ Jᴏɪɴ Oᴜʀ Bᴀᴄᴋ-Uᴘ Cʜᴀɴɴᴇʟ ❆", url=invite_link.invite_link
                 )
             ]
         ]
@@ -75,35 +82,41 @@ async def start(client, message):
         if message.command[1] != "subscribe":
             try:
                 kk, file_id = message.command[1].split("_", 1)
-                pre = 'checksubp' if kk == 'filep' else 'checksub' 
-                btn.append([InlineKeyboardButton(" 🔄 Try Again", callback_data=f"{pre}#{file_id}")])
+                pre = 'checksubp' if kk == 'filep' else 'checksub'
+                btn.append([InlineKeyboardButton(
+                    " ↻ Tʀʏ Aɢᴀɪɴ", callback_data=f"{pre}#{file_id}")])
             except (IndexError, ValueError):
-                btn.append([InlineKeyboardButton(" 🔄 Try Again", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
+                btn.append([InlineKeyboardButton(
+                    " ↻ Tʀʏ Aɢᴀɪɴ", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
         await client.send_message(
             chat_id=message.from_user.id,
             text=FORCE_SUB_TEXT,
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.DEFAULT
-            )
+        )
         return
     if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help"]:
         buttons = [[
-            InlineKeyboardButton("➕️ DISCUSSION GROUP ➕️", url=f"https://t.me/+mCdsJ7mjeBEyZWQ1")
-            ],[
-            InlineKeyboardButton("🕯️️ 𝖨𝗇 𝗅𝗂𝗇𝖾 𝖰𝗎𝖾𝗋𝗒 🕯️", switch_inline_query_current_chat=''), 
-            InlineKeyboardButton("☃️ 𝖴𝗉𝖽𝖺𝗍𝖾𝗌 ☃️", url="https://t.me/+HzGpLAZXTxoyYTNl")
-            ],[      
-            InlineKeyboardButton("🏷️ 𝖧𝖾𝗅𝗉 🏷", callback_data="help"),
-            InlineKeyboardButton("🖇️ 𝖠𝖻𝗈𝗎𝗍 🖇️", callback_data="about")
+            InlineKeyboardButton("➕️ DISCUSSION GROUP ➕️",
+                                 url=f"https://t.me/+mCdsJ7mjeBEyZWQ1")
+        ], [
+            InlineKeyboardButton("𝖨𝗇 𝗅𝗂𝗇𝖾 𝖰𝗎𝖾𝗋𝗒",
+                                 switch_inline_query_current_chat=''),
+            InlineKeyboardButton(
+                "𝖴𝗉𝖽𝖺𝗍𝖾𝗌", url="https://t.me/+HzGpLAZXTxoyYTNl")
+        ], [
+            InlineKeyboardButton("𝖧𝖾𝗅𝗉 ", callback_data="help"),
+            InlineKeyboardButton("𝖠𝖻𝗈𝗎𝗍", callback_data="about")
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_chat_action(enums.ChatAction.TYPING)
-        m=await message.reply_sticker("CAACAgUAAxkBAAEJcFxklJ3HkDjH9nnOdNcxDzhNNCrZCQACnAADyJRkFHOPAAHz2sWF_C8E")
+        m = await message.reply_sticker("CAACAgUAAxkBAAEJcFxklJ3HkDjH9nnOdNcxDzhNNCrZCQACnAADyJRkFHOPAAHz2sWF_C8E")
         await asyncio.sleep(1)
         await m.delete()
         await message.reply_photo(
             photo=random.choice(PICS),
-            caption=START_MESSAGE.format(user=message.from_user.mention, bot=temp.B_LINK),
+            caption=START_MESSAGE.format(
+                user=message.from_user.mention, bot=temp.B_LINK),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
@@ -120,9 +133,9 @@ async def start(client, message):
         msgs = BATCH_FILES.get(file_id)
         if not msgs:
             file = await client.download_media(file_id)
-            try: 
+            try:
                 with open(file) as file_data:
-                    msgs=json.loads(file_data.read())
+                    msgs = json.loads(file_data.read())
             except:
                 await sts.edit("FAILED")
                 return await client.send_message(LOG_CHANNEL, "UNABLE TO OPEN FILE.")
@@ -130,14 +143,15 @@ async def start(client, message):
             BATCH_FILES[file_id] = msgs
         for msg in msgs:
             title = msg.get("title")
-            size=get_size(int(msg.get("size", 0)))
-            f_caption=msg.get("caption", "")
+            size = get_size(int(msg.get("size", 0)))
+            f_caption = msg.get("caption", "")
             if BATCH_FILE_CAPTION:
                 try:
-                    f_caption=BATCH_FILE_CAPTION.format(mention=message.from_user.mention, file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+                    f_caption = BATCH_FILE_CAPTION.format(mention=message.from_user.mention, file_name='' if title is None else title,
+                                                          file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
                 except Exception as e:
                     logger.exception(e)
-                    f_caption=f_caption
+                    f_caption = f_caption
             if f_caption is None:
                 f_caption = f"{title}"
             try:
@@ -146,7 +160,7 @@ async def start(client, message):
                     file_id=msg.get("file_id"),
                     caption=f_caption,
                     protect_content=msg.get('protect', False),
-                    )
+                )
             except FloodWait as e:
                 await asyncio.sleep(e.x)
                 logger.warning(f"Floodwait of {e.x} sec.")
@@ -155,17 +169,18 @@ async def start(client, message):
                     file_id=msg.get("file_id"),
                     caption=f_caption,
                     protect_content=msg.get('protect', False),
-                    )
+                )
             except Exception as e:
                 logger.warning(e, exc_info=True)
                 continue
-            await asyncio.sleep(1) 
+            await asyncio.sleep(1)
         await sts.delete()
         return
     elif data.split("-", 1)[0] == "DSTORE":
         sts = await message.reply("Please wait")
         b_string = data.split("-", 1)[1]
-        decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
+        decoded = (base64.urlsafe_b64decode(
+            b_string + "=" * (-len(b_string) % 4))).decode("ascii")
         try:
             f_msg_id, l_msg_id, f_chat_id, protect = decoded.split("_", 3)
         except:
@@ -177,7 +192,8 @@ async def start(client, message):
                 media = getattr(msg, msg.media)
                 if BATCH_FILE_CAPTION:
                     try:
-                        f_caption=BATCH_FILE_CAPTION.format(mention=message.from_user.mention, file_name=getattr(media, 'file_name', ''), file_size=getattr(media, 'file_size', ''), file_caption=getattr(msg, 'caption', ''))
+                        f_caption = BATCH_FILE_CAPTION.format(mention=message.from_user.mention, file_name=getattr(
+                            media, 'file_name', ''), file_size=getattr(media, 'file_size', ''), file_caption=getattr(msg, 'caption', ''))
                     except Exception as e:
                         logger.exception(e)
                         f_caption = getattr(msg, 'caption', '')
@@ -204,57 +220,60 @@ async def start(client, message):
                 except Exception as e:
                     logger.exception(e)
                     continue
-            await asyncio.sleep(1) 
+            await asyncio.sleep(1)
         return await sts.delete()
-        
 
     files_ = await get_file_details(file_id)           
     if not files_:
         pre, file_id = ((base64.urlsafe_b64decode(data + "=" * (-len(data) % 4))).decode("ascii")).split("_", 1)
         try:
+            
             msg = await client.send_cached_media(
                 chat_id=message.from_user.id,
                 file_id=file_id,
-                protect_content=True if pre == 'filep' else False,
-                )
+                protect_content=True if pre == 'filep' else False
+
+            )
             filetype = msg.media
-            file = getattr(msg, filetype)
+            file = getattr(msg, filetype.value)
             title = file.file_name
             size=get_size(file.file_size)
             f_caption = f"<code>{title}</code>"
             if CUSTOM_FILE_CAPTION:
                 try:
-                    f_caption=CUSTOM_FILE_CAPTION.format(mention=message.from_user.mention, file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
+                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
                 except:
                     return
             await msg.edit_caption(f_caption)
             return
         except:
             pass
-        return await message.reply('No such file exist.')
+        return await message.reply('Nᴏ sᴜᴄʜ ғɪʟᴇ ᴇxɪsᴛ.')
     files = files_[0]
     title = files.file_name
     size=get_size(files.file_size)
     f_caption=files.caption
     if CUSTOM_FILE_CAPTION:
         try:
-            f_caption=CUSTOM_FILE_CAPTION.format(mention=message.from_user.mention, file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+            f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
         except Exception as e:
             logger.exception(e)
             f_caption=f_caption
     if f_caption is None:
         f_caption = f"{files.file_name}"
+    
     await client.send_cached_media(
         chat_id=message.from_user.id,
         file_id=file_id,
         caption=f_caption,
-        protect_content=True if pre == 'filep' else False,
-        )
+        protect_content=True if pre == 'filep' else False
+    )
                     
+
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
-           
+
     """Send basic information of channel"""
     if isinstance(CHANNELS, (int, str)):
         channels = [CHANNELS]
@@ -300,7 +319,7 @@ async def delete(bot, message):
     else:
         await msg.edit('This is not supported file format')
         return
-    
+
     file_id, file_ref = unpack_new_file_id(media.file_id)
 
     result = await Media.collection.delete_one({
@@ -314,11 +333,11 @@ async def delete(bot, message):
             'file_name': file_name,
             'file_size': media.file_size,
             'mime_type': media.mime_type
-            })
+        })
         if result.deleted_count:
             await msg.edit('File is successfully deleted from database')
         else:
-            # files indexed before https://github.com/EvamariaTG/EvaMaria/commit/f3d2a1bcb155faf44178e5d7a685a1b533e714bf#diff-86b613edf1748372103e94cacff3b578b36b698ef9c16817bb98fe9ef22fb669R39 
+            # files indexed before https://github.com/EvamariaTG/EvaMaria/commit/f3d2a1bcb155faf44178e5d7a685a1b533e714bf#diff-86b613edf1748372103e94cacff3b578b36b698ef9c16817bb98fe9ef22fb669R39
             # have original file name.
             result = await Media.collection.delete_many({
                 'file_name': media.file_name,
@@ -399,24 +418,36 @@ async def settings(client, message):
     settings = await get_settings(grp_id)
     if settings is not None:
         buttons = [[
-            ],[            
-            InlineKeyboardButton('𝖡𝗎𝗍𝗍𝗈𝗇 𝖲𝗍𝗒𝗅𝖾', callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
-            InlineKeyboardButton('𝖲𝗂𝗇𝗀𝗅𝖾' if settings["button"] else '𝖣𝗈𝗎𝖻𝗅𝖾',  callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
-            ],[
-            InlineKeyboardButton('𝖡𝗈𝗍 𝖯𝖬', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["botpm"] else '🚫 𝖭𝖮', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
-            ],[                
-            InlineKeyboardButton('𝖥𝗂𝗅𝖾 𝖲𝖾𝖼𝗎𝗋𝖾', callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["file_secure"] else '🚫 𝖭𝖮',  callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
-            ],[
-            InlineKeyboardButton('𝖨𝖬𝖣𝖡', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["imdb"] else '🚫 𝐍𝐎', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
-            ],[
-            InlineKeyboardButton('𝖲𝗉𝖾𝗅𝗅 𝖢𝗁𝖾𝖼𝗄', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["spell_check"] else '🚫 𝖭𝖮', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
-            ],[
-            InlineKeyboardButton('𝖶𝖾𝗅𝖼𝗈𝗆𝖾', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["welcome"] else '🚫 𝖭𝖮', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')               
+        ], [
+            InlineKeyboardButton(
+                '𝖡𝗎𝗍𝗍𝗈𝗇 𝖲𝗍𝗒𝗅𝖾', callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
+            InlineKeyboardButton('𝖲𝗂𝗇𝗀𝗅𝖾' if settings["button"] else '𝖣𝗈𝗎𝖻𝗅𝖾',
+                                 callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
+        ], [
+            InlineKeyboardButton(
+                '𝖡𝗈𝗍 𝖯𝖬', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["botpm"] else '🚫 𝖭𝖮',
+                                 callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
+        ], [
+            InlineKeyboardButton(
+                '𝖥𝗂𝗅𝖾 𝖲𝖾𝖼𝗎𝗋𝖾', callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["file_secure"] else '🚫 𝖭𝖮',
+                                 callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
+        ], [
+            InlineKeyboardButton(
+                '𝖨𝖬𝖣𝖡', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}'),
+            InlineKeyboardButton(
+                '✅ 𝖸𝖾𝗌' if settings["imdb"] else '🚫 𝐍𝐎', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
+        ], [
+            InlineKeyboardButton(
+                '𝖲𝗉𝖾𝗅𝗅 𝖢𝗁𝖾𝖼𝗄', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["spell_check"] else '🚫 𝖭𝖮',
+                                 callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
+        ], [
+            InlineKeyboardButton(
+                '𝖶𝖾𝗅𝖼𝗈𝗆𝖾', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ 𝖸𝖾𝗌' if settings["welcome"] else '🚫 𝖭𝖮',
+                                 callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_text(
@@ -426,7 +457,6 @@ async def settings(client, message):
             parse_mode=enums.ParseMode.HTML,
             reply_to_message_id=message.id
         )
-
 
 
 @Client.on_message(filters.command('set_template'))
@@ -494,6 +524,7 @@ async def send_msg(bot, message):
             await message.reply_text("<b>Aɴ Eʀʀᴏʀ Oᴄᴄᴜʀʀᴇᴅ !</b>")
     else:
         await message.reply_text("<b>Cᴏᴍᴍᴀɴᴅ Iɴᴄᴏᴍᴘʟᴇᴛᴇ...</b>")
+
 
 @Client.on_message(filters.command("gsend") & filters.user(ADMINS))
 async def send_chatmsg(bot, message):

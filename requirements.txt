@@ -11,6 +11,7 @@ requests==2.28.2
 bs4==0.0.1
 dnspython==2.3.0
 
+
 #---database---#
 pymongo[srv]==3.12.3
 marshmallow==3.14.1

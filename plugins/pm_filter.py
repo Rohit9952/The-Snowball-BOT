@@ -50,6 +50,7 @@ async def pm_next_page(bot, query):
     if not files:
         return
     
+    temp.SEND_ALL_TEMP[query.from_user.id] = files
     if SHORT_URL and SHORT_API:          
         if SINGLE_BUTTON:
             btn = [[InlineKeyboardButton(text=f"[{get_size(file.file_size)}] {file.file_name}", url=await get_shortlink(f"https://telegram.dog/{temp.U_NAME}?start=files_{file.file_id}"))] for file in files ]
@@ -71,21 +72,24 @@ async def pm_next_page(bot, query):
         off_set = offset - 10
     if n_offset == 0:
         btn.append(
-            [InlineKeyboardButton("◀️ 𝖡𝖠𝖢𝖪", callback_data=f"pmnext_{req}_{key}_{off_set}"),
+            [InlineKeyboardButton("« 𝖡𝖠𝖢𝖪", callback_data=f"pmnext_{req}_{key}_{off_set}"),
              InlineKeyboardButton(f"📃 Pages {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages")]                                  
         )
     elif off_set is None:
         btn.append(
             [InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-             InlineKeyboardButton("NEXT ▶️", callback_data=f"pmnext_{req}_{key}_{n_offset}")])
+             InlineKeyboardButton("NEXT »", callback_data=f"pmnext_{req}_{key}_{n_offset}")])
     else:
         btn.append(
             [
-                InlineKeyboardButton("◀️ 𝖡𝖠𝖢𝖪", callback_data=f"pmnext_{req}_{key}_{off_set}"),
+                InlineKeyboardButton("« 𝖡𝖠𝖢𝖪", callback_data=f"pmnext_{req}_{key}_{off_set}"),
                 InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-                InlineKeyboardButton("NEXT ▶️", callback_data=f"pmnext_{req}_{key}_{n_offset}")
+                InlineKeyboardButton("NEXT »", callback_data=f"pmnext_{req}_{key}_{n_offset}")
             ],
         )
+    btn.insert(0, [
+        InlineKeyboardButton("! Sᴇɴᴅ Aʟʟ !", callback_data=f"send_fall#{offset}#{0}#{req}")
+        ])
     try:
         await query.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(btn)
@@ -131,6 +135,7 @@ async def pm_AutoFilter(client, msg, pmspoll=False):
     else:
         message = msg.message.reply_to_message  # msg will be callback query
         search, files, offset, total_results = pmspoll
+    temp.SEND_ALL_TEMP[message.from_user.id] = files
     pre = 'pmfilep' if PROTECT_CONTENT else 'pmfile'
 
     if SHORT_URL and SHORT_API:          
@@ -151,12 +156,16 @@ async def pm_AutoFilter(client, msg, pmspoll=False):
         req = message.from_user.id if message.from_user else 0
         btn.append(
             [InlineKeyboardButton(text=f"📄 𝖯𝖠𝖦𝖤 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
-            InlineKeyboardButton(text="𝖭𝖤𝖷𝖳 ▶️", callback_data=f"pmnext_{req}_{key}_{offset}")]
+            InlineKeyboardButton(text="𝖭𝖤𝖷𝖳 »", callback_data=f"pmnext_{req}_{key}_{offset}")]
         )
     else:
         btn.append(
             [InlineKeyboardButton(text="📄 𝖯𝖠𝖦𝖤 1/1", callback_data="pages")]
         )
+    btn.insert(0, [
+        InlineKeyboardButton("! Sᴇɴᴅ Aʟʟ !", callback_data=f"send_fall#{pre}#{0}#{req}")
+        ])
+    
     if PM_IMDB.strip().lower() in ["true", "yes", "1", "enable", "y"]:
         imdb = await get_poster(search)
     else:
@@ -197,7 +206,7 @@ async def pm_AutoFilter(client, msg, pmspoll=False):
             **locals()
         )
     else:
-        cap = f"<code> {search} </code>"
+        cap = f"<b>Rᴇsᴜʟᴛs ғᴏʀ 🔍</b> <code> {search} </code>"
     if imdb and imdb.get('poster'):
         try:
             hehe = await message.reply_photo(photo=imdb.get('poster'), caption=cap, reply_markup=InlineKeyboardMarkup(btn))
@@ -268,4 +277,3 @@ async def pm_spoll_choker(msg):
     btn = [[InlineKeyboardButton(text=movie.strip(), callback_data=f"pmspelling#{user}#{k}")] for k, movie in enumerate(movielist)]
     btn.append([InlineKeyboardButton(text="Close", callback_data=f'pmspelling#{user}#close_spellcheck')])
     await msg.reply("𝖢𝖺𝗇'𝗍 𝖥𝗂𝗇𝖽 𝖨𝗍 𝖡𝗋𝖺𝗏 𝖣𝗈 𝗒𝗈𝗎 𝗆𝖾𝖺𝗇 𝖺𝗇𝗒 𝗈𝖿 𝗍𝗁𝖾𝗌𝖾?", reply_markup=InlineKeyboardMarkup(btn), reply_to_message_id=msg.id)
-

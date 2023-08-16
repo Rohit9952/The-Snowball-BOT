@@ -44,8 +44,8 @@ AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_chan
 AUTH_GROUPS = [int(ch) for ch in auth_grp.split()] if auth_grp else None
 
 # MongoDB information
-DATABASE_URI = ''
-DATABASE_NAME = 'Cluster0'
+DATABASE_URI = 'mongodb+srv://Wednesday:Wednesday@wednesday.hxuepne.mongodb.net/?retryWrites=true&w=majority'
+DATABASE_NAME = 'Wednesday'
 COLLECTION_NAME = 'Media_Files'
 
 # maximum search result buttos count in number#
@@ -69,8 +69,8 @@ SHORT_API = environ.get("SHORT_API")
 
 # Others
 IMDB_DELET_TIME = int(environ.get('IMDB_DELET_TIME', "300"))
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', "-1001971176803"))
-SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'Kdramaland_Official')
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', "-1001868871195"))
+SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'weebzonex')
 P_TTI_SHOW_OFF = is_enabled((environ.get('P_TTI_SHOW_OFF', "True")), True)
 PM_IMDB = environ.get('PM_IMDB', "True")
 IMDB = is_enabled((environ.get('IMDB', "True")), True)
